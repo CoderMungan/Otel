@@ -1,13 +1,56 @@
 {% extends "base.html" %}
 
 {% block site-title %}
-  
+
 {% endblock site-title %}
 
 {% block site-icerik %}
 <!-- Navbar -->
 {% include "./Components/_navbar.html" %}
-  <div class="container">
-    <h5 class="text-center mt-5">Blokaj Sayafasıdır</h5>
-  </div>
+
+<div class="container mt-5">
+    <div class="row justify-content-around">
+        <!-- Left Panel -->
+        <div class="col-md-3">
+            <h5 class="text-center">Oda Yapılandırma Menüsü</h5>
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <!-- Menü Elemanları Gelecek -->
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roomadd">
+                            Oda Ekle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="col-md-9">
+            <h5 class="text-center">Blokaj Sayfasıdır</h5>
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-3">
+                        <button id="viewMonth" class="btn btn-secondary mr-2">Ay</button>
+                        <button id="viewWeek" class="btn btn-secondary mr-2">Hafta</button>
+                        <button id="viewDay" class="btn btn-secondary mr-2">Gün</button>
+                        <button id="prevMonth" class="btn btn-secondary mr-2">Geri</button>
+                        <button id="nextMonth" class="btn btn-secondary ml-2">İleri</button>
+                    </div>
+
+                    <!-- Calendar Container -->
+                    <div id="full-year-calendar"></div>
+
+                    <!-- Empty Rooms Section -->
+                    <div class="mt-5 text-center">
+                        <h6>Boş Odalar</h6>
+                        <div id="empty-rooms" class="d-flex flex-wrap justify-content-center">
+                            <!-- Empty rooms will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock site-icerik %}
