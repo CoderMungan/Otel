@@ -1,0 +1,34 @@
+<div class="modal fade" id="roomadd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Oda Ekle</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <form action="{% url 'odaekle' %}" method="post">
+                    {% csrf_token %}
+                    <label for="roomnumber">Oda Numarası</label>
+                    <input type="number" placeholder="Oda Numarası" id="roomnumber" name="room-numarasi" />
+                    
+                    <label for="roomtype">Oda Tipi</label>
+                    <input type="text" placeholder="Oda Tipi" id="roomtype" name="room-tipi"/>
+
+                    </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="submit" class="btn btn-success">Yolla</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

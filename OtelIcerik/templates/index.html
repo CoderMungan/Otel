@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+
+{% block site-title %}
+Otel Giriş Ekranı
+{% endblock site-title %}
+
+{% block site-icerik %}
+<div class="container">
+    <div class="head">
+        <div class="login-card shadow-lg">
+            <div class="row justify-content-center align-content-center">
+                <div class="col-md-6 text-center">
+                    <h3 class="text-center text-white mb-3">Otel Giriş</h3>
+                    <form action="{% url 'anasayfa' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input class="form-control" type="text" placeholder="Otel Kullanıcı Adı" name="username" />
+                        </div>
+                        <div class="mb-3">
+                            <input class="form-control" type="password" placeholder="Otel Şifre" name="password" />
+                        </div>
+                        <button class="btn btn-success" type="submit">Giriş</button>
+                    </form>
+                    <div class="mt-2">
+                        {% for message in messages %}
+                            {% if message.tags == 'succes' %}
+                            <div class="alert alert-success" role="alert">
+                                {{ message }}
+                            </div>
+                            {% endif %}
+                            {% if message.tags == 'error' or message.tags == 'warning' %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ message }}
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock site-icerik %}

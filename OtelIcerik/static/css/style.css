@@ -1,0 +1,13 @@
+.head{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-card{
+    padding: 30px;
+    background: rgb(10, 61, 62);
+    border-radius: 15px 15px;
+    width: 450px;
+}

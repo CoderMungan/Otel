@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block site-title %}
+  {{ilgiliOda.odaNumarasi}} Numaralı Oda
+{% endblock site-title %}
+
+{% block site-icerik %}
+{% include "./Components/_navbar.html" %}
+    <div class="container">
+        <div class="row justify-content-around mt-5">
+            <div class="col-md-6">
+                <h5 class="text-center">Oda Özellikleri</h5>
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <form action="{% url 'odadetay' ilgiliOda.id %}" method="post">
+                            {% csrf_token %}
+                            {{form}}
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Güncelle</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Oda Özellikleri Form Olarak Gelecek -->
+
+            </div>
+            <div class="col-md-3">
+                <h5 class="text-center">Oda Menüsü</h5>
+                <div class="card shadow-lg">
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock site-icerik %}

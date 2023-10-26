@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block site-title %}
+    Dashboard
+{% endblock site-title %}
+
+
+{% block site-icerik %}
+<!-- Navbar -->
+{% include "./Components/_navbar.html" %}
+<div class="container">
+  <div class="row justify-content-between mt-5">
+    <div class="col-md-3">
+      <h5 class="text-center">Oda Yapılandırma Menüsü</h5>
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <!-- Menü Elemanları Gelecek -->
+          <div class="text-center">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roomadd">
+              Oda Ekle
+            </button>
+          </div>
+
+        </div>
+      </div>
+      <div class="row mt-3 mb-3">
+        <div class="col-md-12">
+          <h5 class="text-center"> Müşteri Notları</h5>
+          <div class="card shadow-lg">
+            <div class="card-body">
+              <!-- Müşteri Not Elemanları Gelecek -->
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <h5 class="text-center">Odalar</h5>
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <!-- Oda Elemanları Gelecek -->
+          <div class="row justify-content-center">
+            <!-- Odalar Back'ten Fronata -->
+            {% if odalar %}
+            {% for oda in odalar %}
+            <div class="col-md-3 mb-4">
+                <a href="{% url 'odadetay' oda.id %}" class="text-decoration-none">
+                <!-- Link Gelecek Unutma -->
+                <div class="card border-0 p-2">
+                  <div class="card-body rounded-3 shadow-lg {% if oda.odaBosMu == True %}
+                    bg-info
+                  {% elif oda.odaArizaliMi == True %}
+                    bg-warning
+                  {% elif oda.odaRezerveMi == True %}
+                    bg-success
+                  {% else %}
+                    bg-danger
+                  {% endif %}
+                  ">
+                  {% if oda.odaRezerveMi == True %}
+                  <div class="mb-1 text-center">
+                    <span class="badge bg-info shadow-lg text-bg-success">Rezerve</span>
+                  </div>
+                  {% elif oda.odaTemizMi == True %}
+                  <div class="mb-1 text-center">
+                    <span class="badge bg-success shadow-lg text-bg-success">Temiz</span>
+                  </div>
+                  {% elif oda.odaTemizMi == False %}
+                  <div class="mb-1 text-center">
+                    <span class="badge bg-primary shadow-lg text-bg-success">Kirli</span>
+                  </div>
+                  {% else %}
+                  <div class="mb-1 text-center">
+                    <span class="badge bg-warning shadow-lg text-bg-success">Arızalı</span>
+                  </div>
+                  {% endif %}
+                    <h3 class="text-center">{{oda.odaNumarasi}}</h3>
+                  </div>
+                </div>
+
+                </a>
+              </div>
+            {% endfor %}
+              
+            {% endif %}
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "./Components/_addodamodal.html" %}
+{% endblock site-icerik %}
