@@ -49,3 +49,12 @@ class KonukBilgileri(models.Model):
 
     def __str__(self) -> str:
         return self.firstname + " " + self.lastname
+    
+
+class KonukCheckInveCheckOut(models.Model):
+    otel = models.ForeignKey(OtelYonetim, verbose_name=("Otel Adı"), on_delete=models.CASCADE)
+    konuk = models.ForeignKey(KonukBilgileri, verbose_name=("Konuk Bilgileri"), on_delete=models.CASCADE)
+    oda = models.ForeignKey(OtelOda, verbose_name=("Otel Oda"), on_delete=models.CASCADE)
+    checkIn = models.DateTimeField(("Check-In Zamanı"), auto_now=False, auto_now_add=False)
+    checkOut = models.DateTimeField(("Check-Out Zamanı"), auto_now=False, auto_now_add=False)
+    fiyat = models.DecimalField(("Fiyat"), max_digits=10, decimal_places=2)
