@@ -81,19 +81,18 @@ Dashboard
                     <div class="mb-1 text-center">
                       <span class="badge bg-success shadow-lg text-bg-success">Temiz</span>
                     </div>
+                    {% elif oda.odaArizaliMi == True %}
+                    <div class="mb-1 text-center">
+                      <span class="badge bg-danger shadow-lg text-bg-success">Arızalı</span>
+                    </div>
                     {% elif oda.odaTemizMi == False %}
                     <div class="mb-1 text-center">
                       <span class="badge bg-primary shadow-lg text-bg-success">Kirli</span>
-                    </div>
-                    {% else %}
-                    <div class="mb-1 text-center">
-                      <span class="badge bg-warning shadow-lg text-bg-success">Arızalı</span>
                     </div>
                     {% endif %}
                     <h3 class="text-center">{{oda.odaNumarasi}}</h3>
                   </div>
                 </div>
-
               </a>
             </div>
             {% endfor %}

@@ -26,7 +26,6 @@ class OtelOda(models.Model):
     otel = models.ForeignKey(OtelYonetim, verbose_name=("Otel Adı"), on_delete=models.CASCADE)
     odaNumarasi = models.CharField(("Oda Numarası"), max_length=5)
     odaTipi = models.CharField(("Oda Tipi"), max_length=50)
-    odaFiyat = models.DecimalField(("Oda Fiyatı"), default=000.00, max_digits=10, decimal_places=2, blank=True)
     odaTemizMi = models.BooleanField(("Oda Temiz Mi?"), default=True, blank=True)
     odaArizaliMi = models.BooleanField(("Oda Arızalı Mı?"), default=False, blank=True)
     odaRezerveMi = models.BooleanField(('Oda Rezerve Mi?'), default=False, blank=True)
