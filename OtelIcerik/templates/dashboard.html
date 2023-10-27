@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block site-title %}
-    Dashboard
+Dashboard
 {% endblock site-title %}
 
 
@@ -9,6 +9,13 @@
 <!-- Navbar -->
 {% include "./Components/_navbar.html" %}
 <div class="container">
+  {% for message in messages %}
+  {% if message.tags == 'success' %}
+  <div class="alert alert-success mt-3" role="alert" id="alertDiv">
+    {{ message }}
+  </div>
+  {% endif %}
+  {% endfor %}
   <div class="row justify-content-between mt-5">
     <div class="col-md-3">
       <h5 class="text-center">Oda Yapılandırma Menüsü</h5>
@@ -46,7 +53,7 @@
             {% if odalar %}
             {% for oda in odalar %}
             <div class="col-md-3 mb-4">
-                <a href="{% url 'odadetay' oda.id %}" class="text-decoration-none">
+              <a href="{% url 'odadetay' oda.id %}" class="text-decoration-none">
                 <!-- Link Gelecek Unutma -->
                 <div class="card border-0 p-2">
                   <div class="card-body rounded-3 shadow-lg {% if oda.odaBosMu == True %}
@@ -59,31 +66,31 @@
                     bg-danger
                   {% endif %}
                   ">
-                  {% if oda.odaRezerveMi == True %}
-                  <div class="mb-1 text-center">
-                    <span class="badge bg-info shadow-lg text-bg-success">Rezerve</span>
-                  </div>
-                  {% elif oda.odaTemizMi == True %}
-                  <div class="mb-1 text-center">
-                    <span class="badge bg-success shadow-lg text-bg-success">Temiz</span>
-                  </div>
-                  {% elif oda.odaTemizMi == False %}
-                  <div class="mb-1 text-center">
-                    <span class="badge bg-primary shadow-lg text-bg-success">Kirli</span>
-                  </div>
-                  {% else %}
-                  <div class="mb-1 text-center">
-                    <span class="badge bg-warning shadow-lg text-bg-success">Arızalı</span>
-                  </div>
-                  {% endif %}
+                    {% if oda.odaRezerveMi == True %}
+                    <div class="mb-1 text-center">
+                      <span class="badge bg-info shadow-lg text-bg-success">Rezerve</span>
+                    </div>
+                    {% elif oda.odaTemizMi == True %}
+                    <div class="mb-1 text-center">
+                      <span class="badge bg-success shadow-lg text-bg-success">Temiz</span>
+                    </div>
+                    {% elif oda.odaTemizMi == False %}
+                    <div class="mb-1 text-center">
+                      <span class="badge bg-primary shadow-lg text-bg-success">Kirli</span>
+                    </div>
+                    {% else %}
+                    <div class="mb-1 text-center">
+                      <span class="badge bg-warning shadow-lg text-bg-success">Arızalı</span>
+                    </div>
+                    {% endif %}
                     <h3 class="text-center">{{oda.odaNumarasi}}</h3>
                   </div>
                 </div>
 
-                </a>
-              </div>
+              </a>
+            </div>
             {% endfor %}
-              
+
             {% endif %}
 
           </div>

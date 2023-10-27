@@ -39,6 +39,8 @@ urlpatterns = [
     # Oda Detay
     path('odadetay/<odaID>', odadetay, name="odadetay"),
 
+    path('odasil/<odaID>', odasil, name="odasil"),
+
     path('odaekle', odaEkle, name="odaekle"),
     # Logout
     path('logout', cikisYap, name="logout"),

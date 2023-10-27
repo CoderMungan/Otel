@@ -25,12 +25,12 @@ Otel Giriş Ekranı
                     <div class="mt-2">
                         {% for message in messages %}
                             {% if message.tags == 'succes' %}
-                            <div class="alert alert-success" role="alert">
+                            <div class="alert alert-success" role="alert" id="alertDiv">
                                 {{ message }}
                             </div>
                             {% endif %}
                             {% if message.tags == 'error' or message.tags == 'warning' %}
-                            <div class="alert alert-danger" role="alert">
+                            <div class="alert alert-danger" role="alert" id="alertDiv">
                                 {{ message }}
                             </div>
                             {% endif %}

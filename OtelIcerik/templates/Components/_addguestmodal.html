@@ -1,0 +1,46 @@
+<div class="modal fade" id="guestadd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Misafir Ekle</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" role="alert" id="alertDiv">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <!-- Back-Endi ayarlanacak -->
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <label for="first-name">İsim</label>
+                    <input type="text" placeholder="Adınız" id="first-name" name="first">
+                    <label for="last-name">Soyadınız</label>
+                    <input type="text" placeholder="Soyadınız" id="last-name" name="last">
+                    <label for="countrySelect">Ülke Seç:</label>
+                    <select id="countrySelect" name="uyruk">
+                        <option value="">Ülke Seç</option>
+                    </select>
+                    <label for="tckimlik">Tc Numarası</label>
+                    <input type="text" placeholder="TC Kimlik Numarası" id="tckimlik" name="tc">
+                    <label for="passaport">Passaport</label>
+                    <input type="text" placeholder="Passaport Numarası" id="passaport" name="passaport">
+                    <label for="check-in">Check-In Tarihi</label>
+                    <input type="datetime-local" id="check-in" name="checkin">
+                    <label for="checkout">Check-Out Tarihi</label>
+                    <input type="datetime-local" id="checkout" name="checkout">
+                    <label for="guest-note">Müşteri Notu</label>
+                    <textarea name="guest_note" id="guest-note" class="form-control mb-3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="submit" class="btn btn-success">Yolla</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

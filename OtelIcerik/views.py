@@ -120,6 +120,19 @@ def odadetay(request,odaID):
 def blokaj(request):
     return render(request,'blokaj.html')
 
+@login_required(login_url='anasayfa')
+def odasil(request,odaID):
+
+    oda = OtelOda.objects.filter(id = odaID).first()
+
+    if oda and request.user:
+        oda.delete()
+        messages.success(request, f'{oda} Numaralı Oda Başarıyla Silindi')
+        return redirect('dashboard')
+    else:
+        return redirect('404')
+    
+
 
 # Muhasebe
 @login_required(login_url='anasayfa')
