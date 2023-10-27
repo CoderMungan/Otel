@@ -7,4 +7,4 @@ class UpdateOtelOdaForm(forms.ModelForm):
 
     class Meta:
         model = OtelOda
-        fields = ["odaNumarasi","odaTipi","odaFiyat","odaTemizMi","odaArizaliMi","odaBosMu","odaProblemi"]
+        fields = ["odaNumarasi","odaTipi","odaTemizMi","odaArizaliMi","odaBosMu","odaProblemi"]
