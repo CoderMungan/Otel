@@ -69,9 +69,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 if ((day === 1 && i === date.getDay()) || (day > 1 && day <= daysInMonth)) {
                     dayCol.innerText = day;
                     (function(currentDayValue) {
-                      dayCol.addEventListener('click', function() {
-                      currentDay = currentDayValue;
-                      displayView("day");
+                    dayCol.addEventListener('click', function() {
+                    currentDay = currentDayValue;
+                    displayView("day");
                     });
                     })(day);
                     day++;
@@ -80,12 +80,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             calendar.appendChild(weekRow);
         }
-      
-
         monthDiv.appendChild(calendar);
         calendarContainer.appendChild(monthDiv);
     }
-
     function createWeek(year, monthIndex, day) {
         calendarContainer.innerHTML = ''; 
 
@@ -113,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function () {
             headerRow.appendChild(dayCol);
         });
         calendar.appendChild(headerRow);
-
         let weekRow = document.createElement("div");
         weekRow.className = "row";
         for(let i = 0; i < 7; i++) {
@@ -122,8 +118,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let clickableDay = startOfWeek.getDate();
             dayCol.innerText = clickableDay;
             dayCol.addEventListener('click', function() {
-              currentDay = clickableDay;
-              displayView("day");
+            currentDay = clickableDay;
+            displayView("day");
             });
             weekRow.appendChild(dayCol);
             startOfWeek.setDate(startOfWeek.getDate() + 1);
@@ -161,11 +157,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         calendar.appendChild(row);
         }
-  
         dayDiv.appendChild(calendar);
         calendarContainer.appendChild(dayDiv);
     }
-
     prevMonthButton.addEventListener('click', function() {
     if (currentView === "month") {
         currentMonth--;

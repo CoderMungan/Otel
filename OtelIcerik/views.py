@@ -59,9 +59,12 @@ def dashboard(request):
 
     context = {}
 
-    oda = OtelOda.objects.all()
+    otel = OtelYonetim.objects.filter(owner = request.user).first()
+    oda = OtelOda.objects.filter(otel = otel).all()
     context['odalar'] = oda
 
+    konuk = KonukBilgileri.objects.filter(otel = otel).all()
+    context['musteriler'] = konuk
 
     return render(request,'dashboard.html', context)
 

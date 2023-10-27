@@ -35,3 +35,17 @@ class OtelOda(models.Model):
 
     def __str__(self) -> str:
         return self.odaNumarasi
+
+
+class KonukBilgileri(models.Model):
+    otel = models.ForeignKey(OtelYonetim, verbose_name=("Otel Adı"), on_delete=models.CASCADE)
+    firstname = models.CharField(("Müşterinin Adı"), max_length=50)
+    lastname = models.CharField(("Müşterinin Soyadı"), max_length=50)
+    uyrugu = models.CharField(("Müşterinin Uyruğu"), max_length=50)
+    musteriTC = models.CharField(("Müşteri TC Numarası"), max_length=11, blank=True)
+    musteriID = models.CharField(("Müşteri Passaport Numarası"), max_length=50, blank = True)
+    musteriNotu = models.CharField(("Müşteri Notu"), max_length=50)
+
+
+    def __str__(self) -> str:
+        return self.firstname + " " + self.lastname

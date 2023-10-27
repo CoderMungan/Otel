@@ -36,8 +36,15 @@ Dashboard
           <div class="card shadow-lg">
             <div class="card-body">
               <!-- Müşteri Not Elemanları Gelecek -->
-
-
+              {% for musteri in musteriler %}
+              {% if musteri.musteriNotu %}
+              <a href="#" class="link-underline link-underline-opacity-0">
+                <p class="text-center">{{musteri.firstname}} {{musteri.lastname}}
+                  <span class="badge bg-danger ms-1" id="blink">Not</span>
+                </p>
+              </a>
+              {% endif %}
+              {% endfor %}
             </div>
           </div>
         </div>

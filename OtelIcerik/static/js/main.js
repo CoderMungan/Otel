@@ -1,22 +1,22 @@
 // Dark Mode - Light Mode
 const toggle = document.getElementById('darkModeToggle')
 
-if(toggle){
-    toggle.addEventListener('click', function(){
-        if(document.body.getAttribute('data-bs-theme') == 'dark'){
+if (toggle) {
+    toggle.addEventListener('click', function () {
+        if (document.body.getAttribute('data-bs-theme') == 'dark') {
             document.body.setAttribute('data-bs-theme', 'light');
             localStorage.setItem("theme", "light");
-        }else{
+        } else {
             document.body.setAttribute('data-bs-theme', 'dark');
             localStorage.setItem("theme", "dark");
         }
     })
 }
 
-if(localStorage.getItem('theme') == 'dark'){
-    document.body.setAttribute('data-bs-theme','dark')
-}else{
-    document.body.setAttribute('data-bs-theme','light')
+if (localStorage.getItem('theme') == 'dark') {
+    document.body.setAttribute('data-bs-theme', 'dark')
+} else {
+    document.body.setAttribute('data-bs-theme', 'light')
 }
 
 // Form + api
@@ -107,8 +107,8 @@ for (let i = 0; i < labels.length; i++) {
         }
         else if (inputs[j].type == 'datetime-local') {
             inputs[j].classList.add('form-control')
-            if(label.htmlFor === inputs[j].id){
-                label.parentElement.insertBefore(inputs[j],label.nextSibling)
+            if (label.htmlFor === inputs[j].id) {
+                label.parentElement.insertBefore(inputs[j], label.nextSibling)
             }
         }
     }
@@ -131,10 +131,21 @@ for (let i = 0; i < labels.length; i++) {
 
 const alertDiv = document.getElementById('alertDiv')
 
-if(alertDiv){
-    window.onload = function(){
-        setTimeout(function(){
+if (alertDiv) {
+    window.onload = function () {
+        setTimeout(function () {
             alertDiv.style.display = 'none'
         }, 2000)
     }
+}
+
+// Yanıp Sönme (Not)
+
+const musteriNotu = document.getElementById('blink')
+if (musteriNotu) {
+    const uyariVer = () => {
+        musteriNotu.style.transition = 'visibility 0s, opacity 0.5s';
+        musteriNotu.style.opacity = (musteriNotu.style.opacity == '0' ? '1' : '0');
+    }
+    setInterval(uyariVer, 500)
 }
