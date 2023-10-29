@@ -59,4 +59,4 @@ class KonukCheckInveCheckOut(models.Model):
     fiyat = models.DecimalField(("Fiyat"), max_digits=10, decimal_places=2)
 
     def __str__(self) -> str:
-        return self.konuk
+        return str(self.konuk)
