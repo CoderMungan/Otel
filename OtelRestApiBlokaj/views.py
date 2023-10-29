@@ -28,6 +28,6 @@ def send_routes(request):
 def checkstatus(request):
 
     konuk = KonukCheckInveCheckOut.objects.all()
-    konukserilize = CheckinCheckOut(konuk ,many=True)
+    konukserilize = CheckinCheckOut(konuk , many=True)
 
     return Response(konukserilize.data)
