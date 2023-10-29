@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(OtelYonetim)
 admin.site.register(OtelOda)
 admin.site.register(KonukBilgileri)
+admin.site.register(KonukCheckInveCheckOut)

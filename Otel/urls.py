@@ -18,14 +18,19 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include, re_path, include
 
 from OtelIcerik.views import *
+from OtelRestApiBlokaj.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Anasayfa Login Sayfası
     path('', anasayfa, name="anasayfa"),
+
+    # Api'leri includes et
+    path('api/v1/', send_routes, name="apitest"),
+    path('api/v1/checkstatus', checkstatus, name="checkstatus" ),
 
     # Otel Oda DashBoard
     path('dashboard', dashboard, name="dashboard"),
