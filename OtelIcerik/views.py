@@ -109,7 +109,7 @@ def odadetay(request,odaID):
                 return redirect('odadetay', odaID)
             else:
                 messages.error(request,"Hatalı Veri Girişi Olmuştur.")
-
+    # except Exception as a:
     except OtelOda.DoesNotExist:
         # Exceptionsların hatasını konsola basar
         # traceback.print_exc()
@@ -135,6 +135,28 @@ def odasil(request,odaID):
     else:
         return redirect('404')
     
+
+# Misafir Detay
+@login_required(login_url='anasayfa')
+def misafirdetay(request,misafirID):
+
+    context = {}
+    konuk = KonukBilgileri.objects.filter(id = misafirID).first()
+    context['kisi'] = konuk
+
+    musteriForm = UpdateMusteriDetay(instance=konuk)
+    context["musteriform"] = musteriForm
+
+    if request.method == "POST":
+        form = UpdateMusteriDetay(request.POST, instance=konuk)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Müşteriye not başarıyla eklendi!")
+            return redirect("misafirdetay", misafirID)
+
+
+    return render(request, 'misafirdetay.html', context)
+
 
 
 # Muhasebe

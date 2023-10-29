@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block site-title %}
+{{ kisi.firstname }} {{ kisi.lastname }} Detay Sayfası
+{% endblock site-title %}
+
+
+
+{% block site-icerik %}
+<!-- Navbarı Çek -->
+{% include "./Components/_navbar.html" %}
+<div class="container mt-5">
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <div class="alert alert-success mt-3" role="alert" id="alertDiv">
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    <div class="row justify-content-around">
+        <div class="col-md-6">
+            <h5 class="text-center mt-3">Müşteri Bilgileri</h5>
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <div class="row justify-content-between">
+                        <div class="col-md-6">
+                            <p class="text-center"><strong>Adı:</strong></p>
+                            <p class="text-center"><strong>Uyruğu:</strong></p>
+                            {% if kisi.musteriTC != "" %}
+                            <p class="text-center"><strong>Tc Kimlik Numarası:</strong></p>
+                            {% else %}
+                            <p class="text-center"><strong>Passaport ID Numarası:</strong></p>
+                            {% endif %}
+                            <p class="text-center"><strong>Odaya Giriş Tarihi:</strong></p>
+                            <p class="text-center"><strong>Odadan Çıkış Yapacağı Tarih:</strong></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-center">{{ kisi.firstname }} {{ kisi.lastname }}</p>
+                            <p class="text-center">{{ kisi.uyrugu }} </p>
+                            {% if kisi.guest_tc != "" %}
+                            <p class="text-center">{{ kisi.musteriTC }} </p>
+                            {% else %}
+                            <p class="text-center">{{ kisi.musteriID }} </p>
+                            {% endif %}
+                            <!-- <p class="text-center">{{ kisi.checkin_date }} </p> -->
+                            <!-- <p class="text-center">{{ kisi.checkout_date }} </p> -->
+                        </div>
+                    </div>
+                    <hr>
+                    <form action="{% url 'misafirdetay' kisi.id %}" method="post">
+                        {% csrf_token %}
+                        {{ musteriform }}
+                        <div class="text-center">
+                            <button class="btn btn-success">Notu Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock site-icerik %}

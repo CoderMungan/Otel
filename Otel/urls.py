@@ -29,6 +29,9 @@ urlpatterns = [
 
     # Otel Oda DashBoard
     path('dashboard', dashboard, name="dashboard"),
+
+    # Misafir Detay Sayfası
+    path('misafirdetay/<misafirID>', misafirdetay, name="misafirdetay"),
     
     # Blokaj Sayfası
     path('blokaj', blokaj, name="blokaj"),
