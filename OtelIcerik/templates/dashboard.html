@@ -38,11 +38,13 @@ Dashboard
               <!-- Müşteri Not Elemanları Gelecek -->
               {% for musteri in musteriler %}
               {% if musteri.musteriNotu %}
-              <a href="#" class="link-underline link-underline-opacity-0">
+              <a href="{% url 'misafirdetay' musteri.id %}" class="link-underline link-underline-opacity-0">
                 <p class="text-center">{{musteri.firstname}} {{musteri.lastname}}
                   <span class="badge bg-danger ms-1" id="blink">Not</span>
                 </p>
               </a>
+              {% else %}
+                <p class="text-center mb-0">Müşteri Notu Bulunmamaktadır!</p>
               {% endif %}
               {% endfor %}
             </div>

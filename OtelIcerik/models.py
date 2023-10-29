@@ -43,7 +43,7 @@ class KonukBilgileri(models.Model):
     uyrugu = models.CharField(("Müşterinin Uyruğu"), max_length=50)
     musteriTC = models.CharField(("Müşteri TC Numarası"), max_length=11, blank=True)
     musteriID = models.CharField(("Müşteri Passaport Numarası"), max_length=50, blank = True)
-    musteriNotu = models.CharField(("Müşteri Notu"), max_length=50)
+    musteriNotu = models.TextField(("Müşteri Notu"), max_length=250, default="", blank=True)
 
 
     def __str__(self) -> str:
