@@ -7,6 +7,13 @@
 {% block site-icerik %}
 {% include "./Components/_navbar.html" %}
 <div class="container">
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <div class="alert alert-success mt-3" role="alert" id="alertDiv">
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
     <div class="row justify-content-around mt-5">
         <div class="col-md-6">
             <h5 class="text-center">Oda Özellikleri</h5>

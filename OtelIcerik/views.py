@@ -90,6 +90,37 @@ def odaEkle(request):
     return redirect('dashboard')
 
 
+@login_required(login_url="anasayfa")
+def misafirekle(request, odaID):
+
+    otel = OtelYonetim.objects.filter(owner = request.user).first()
+    oda = OtelOda.objects.filter(id = odaID).first()
+    
+    if request.user:
+        if request.method == "POST":
+            firstname = request.POST.get('first')
+            lastname = request.POST.get('last')
+            uyruk = request.POST.get('uyruk')
+            tckimlik = request.POST.get('tc')
+            passaport = request.POST.get('passaport')
+            musterinotu = request.POST.get('guest_note')
+            musterifiyat = request.POST.get('price')
+            checkin = request.POST.get('checkin')
+            checkout = request.POST.get('checkout')
+            if firstname and lastname and uyruk and musterifiyat and checkin and checkout:
+                if tckimlik or passaport:
+                    KonukBilgileri.objects.create(otel = otel, firstname = firstname, lastname = lastname, uyrugu = uyruk, musteriTC = tckimlik, musteriID = passaport, musteriNotu = musterinotu, fiyat = musterifiyat)
+                    # Kayıt sonrası kişi bilgilerini çek
+                    kisi = KonukBilgileri.objects.filter(otel = otel, firstname = firstname, lastname = lastname).first()
+                    KonukCheckInveCheckOut.objects.create(otel = otel, konuk = kisi, oda = oda, checkIn = checkin, checkOut = checkout)
+                    messages.success(request, "Müşteri başarıyla kaydedilmiştir!")
+                    return redirect('odadetay', odaID)
+        else:
+            return redirect('404')
+    else:
+        messages.error(request, "Lütfen Giriş Yapınız!")
+        return redirect('404')
+
 
 @login_required(login_url="anasayfa")
 def odadetay(request,odaID):
