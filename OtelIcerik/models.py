@@ -18,6 +18,9 @@ class OtelYonetim(models.Model):
     image = models.ImageField(("Otel Logosu"), upload_to="Logo", height_field=None, width_field=None, max_length=None)
     address = models.CharField(("Otel Adresi"), max_length=50)
     telephone = models.CharField(("Otel Telefon Numarası"), max_length=13)
+    class Meta:
+        verbose_name = "Otel Yönetim Bilgileri"
+        verbose_name_plural = "Otel Yönetim Bilgileri "
 
     def __str__(self) -> str:
         return self.title
@@ -32,6 +35,10 @@ class OtelOda(models.Model):
     odaBosMu = models.BooleanField(("Oda Boş Mu?"), default=True, blank=True)
     odaProblemi = models.TextField(("Odanın Problemi Nedir?"), max_length=500, blank=True)
 
+    class Meta:
+        verbose_name = "Otel Oda Bilgileri"
+        verbose_name_plural = "Otel Oda Bilgileri"
+
     def __str__(self) -> str:
         return self.odaNumarasi
 
@@ -44,6 +51,11 @@ class KonukBilgileri(models.Model):
     musteriTC = models.CharField(("Müşteri TC Numarası"), max_length=11, blank=True)
     musteriID = models.CharField(("Müşteri Passaport Numarası"), max_length=50, blank = True)
     musteriNotu = models.TextField(("Müşteri Notu"), max_length=250, default="", blank=True)
+    fiyat = models.DecimalField(("Fiyat"), max_digits=10, decimal_places=2, default= 000.00, blank=True)
+
+    class Meta:
+        verbose_name = "Konuk Bilgileri"
+        verbose_name_plural = "Konuk Bilgileri"
 
 
     def __str__(self) -> str:
@@ -56,7 +68,11 @@ class KonukCheckInveCheckOut(models.Model):
     oda = models.ForeignKey(OtelOda, verbose_name=("Otel Oda"), on_delete=models.CASCADE)
     checkIn = models.DateTimeField(("Check-In Zamanı"), auto_now=False, auto_now_add=False)
     checkOut = models.DateTimeField(("Check-Out Zamanı"), auto_now=False, auto_now_add=False)
-    fiyat = models.DecimalField(("Fiyat"), max_digits=10, decimal_places=2)
+    
+
+    class Meta:
+        verbose_name = "CheckInCheckOut"
+        verbose_name_plural = "CheckInCheckOut"
 
     def __str__(self) -> str:
         return str(self.konuk)

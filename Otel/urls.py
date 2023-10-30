@@ -37,6 +37,9 @@ urlpatterns = [
 
     # Misafir Detay Sayfası
     path('misafirdetay/<misafirID>', misafirdetay, name="misafirdetay"),
+
+    # Misafir Ekle
+    path('misafirekle/<odaID>', misafirekle, name="misafirekle"),
     
     # Blokaj Sayfası
     path('blokaj', blokaj, name="blokaj"),
@@ -47,8 +50,10 @@ urlpatterns = [
     # Oda Detay
     path('odadetay/<odaID>', odadetay, name="odadetay"),
 
+    # Oda Sil
     path('odasil/<odaID>', odasil, name="odasil"),
 
+    # Oda Ekle
     path('odaekle', odaEkle, name="odaekle"),
     # Logout
     path('logout', cikisYap, name="logout"),

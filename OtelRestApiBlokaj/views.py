@@ -1,6 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
+# MiddleWare
+from django.contrib.auth.decorators import login_required
+
 from OtelIcerik.models import KonukCheckInveCheckOut
 from .serializer import CheckinCheckOut
 # Create your views here.
@@ -24,7 +27,9 @@ def send_routes(request):
     return Response(routes)
 
 
+
 @api_view(["GET"])
+@login_required(login_url='anasayfa')
 def checkstatus(request):
 
     konuk = KonukCheckInveCheckOut.objects.all()
