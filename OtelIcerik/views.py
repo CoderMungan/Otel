@@ -113,6 +113,8 @@ def misafirekle(request, odaID):
                     # Kayıt sonrası kişi bilgilerini çek
                     kisi = KonukBilgileri.objects.filter(otel = otel, firstname = firstname, lastname = lastname).first()
                     KonukCheckInveCheckOut.objects.create(otel = otel, konuk = kisi, oda = oda, checkIn = checkin, checkOut = checkout)
+                    oda.odaBosMu = False
+                    oda.save()
                     messages.success(request, "Müşteri başarıyla kaydedilmiştir!")
                     return redirect('odadetay', odaID)
         else:

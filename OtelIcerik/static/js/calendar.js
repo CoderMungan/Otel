@@ -17,23 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let checkStatusData = [];
 
-    fetch('http://localhost:8000/api/v1/checkstatus?format=json')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.text();  
-    })
-    .then(text => {
-        console.log("Raw response:", text);
-        return JSON.parse(text); 
-    })
-    .then(data => {
-        checkStatusData = data;
-        displayView("month");  
-    })
-    .catch(error => console.error('Error fetching check status:', error));
+    const apiBaglantisi = async () => {
+        const request = await fetch('http://127.0.0.1:8000/api/v1/checkstatus')
+        const response = await request.json()
+        
+    }
 
+    apiBaglantisi()
 
     function displayView(viewType) {
         calendarContainer.innerHTML = ''; 
