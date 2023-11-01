@@ -31,7 +31,10 @@ SECRET_KEY = str(os.getenv('secret_key'))
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+]
 
 # Application definition
 

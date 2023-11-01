@@ -13,6 +13,27 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentMonth = new Date().getMonth();
     let currentDay = new Date().getDate();
     let currentView = "month";
+    
+
+    let checkStatusData = [];
+
+    fetch('http://localhost:8000/api/v1/checkstatus?format=json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text();  
+    })
+    .then(text => {
+        console.log("Raw response:", text);
+        return JSON.parse(text); 
+    })
+    .then(data => {
+        checkStatusData = data;
+        displayView("month");  
+    })
+    .catch(error => console.error('Error fetching check status:', error));
+
 
     function displayView(viewType) {
         calendarContainer.innerHTML = ''; 
@@ -68,6 +89,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 dayCol.className = "col";
                 if ((day === 1 && i === date.getDay()) || (day > 1 && day <= daysInMonth)) {
                     dayCol.innerText = day;
+                    if (isDateInCheckStatusRange(new Date(year, monthIndex, day))) {
+                        dayCol.style.backgroundColor = "red";
+                    }
                     (function(currentDayValue) {
                     dayCol.addEventListener('click', function() {
                     currentDay = currentDayValue;
@@ -85,22 +109,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     function createWeek(year, monthIndex, day) {
         calendarContainer.innerHTML = ''; 
-
+    
         let date = new Date(year, monthIndex, day);
         let startOfWeek = new Date(date);
         startOfWeek.setDate(date.getDate() - date.getDay());
-
+    
         let weekDiv = document.createElement("div");
         weekDiv.className = "calendar-week";
-
+    
+        let endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6); 
+    
         let weekTitle = document.createElement("h6");
         weekTitle.className = "text-center";
-        weekTitle.innerText = `${months[monthIndex]} ${startOfWeek.getDate()} - ${date.getDate()} ${year}`;
+        weekTitle.innerText = `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()} - ${months[endOfWeek.getMonth()]} ${endOfWeek.getDate()} ${year}`;
         weekDiv.appendChild(weekTitle);
-
+    
         let calendar = document.createElement("div");
         calendar.className = "calendar";
-
+    
         let headerRow = document.createElement("div");
         headerRow.className = "row";
         days.forEach(day => {
@@ -112,14 +139,21 @@ document.addEventListener("DOMContentLoaded", function () {
         calendar.appendChild(headerRow);
         let weekRow = document.createElement("div");
         weekRow.className = "row";
+    
         for(let i = 0; i < 7; i++) {
             let dayCol = document.createElement("div");
             dayCol.className = "col";
+            
             let clickableDay = startOfWeek.getDate();
+            
+            if (isDateInCheckStatusRange(new Date(year, monthIndex, clickableDay))) {
+                dayCol.style.backgroundColor = "red";
+            }
+    
             dayCol.innerText = clickableDay;
             dayCol.addEventListener('click', function() {
-            currentDay = clickableDay;
-            displayView("day");
+                currentDay = clickableDay;
+                displayView("day");
             });
             weekRow.appendChild(dayCol);
             startOfWeek.setDate(startOfWeek.getDate() + 1);
@@ -129,6 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
         weekDiv.appendChild(calendar);
         calendarContainer.appendChild(weekDiv);
     }
+    
 
     function createDay(year, monthIndex, day) {
         calendarContainer.innerHTML = ''; 
@@ -154,12 +189,54 @@ document.addEventListener("DOMContentLoaded", function () {
         hourCol.className = "col";
         hourCol.innerText = (hour < 10 ? '0' + hour : hour) + ":00";
         row.appendChild(hourCol);
-
+        let roomsForHour = getRoomsForDate(new Date(year, monthIndex, day, hour));
+        if (isDateInCheckStatusRange(new Date(year, monthIndex, day, hour))) {
+            hourCol.style.backgroundColor = "red";
+        }
+        let hourText = (hour < 10 ? '0' + hour : hour) + ":00";
+        if(roomsForHour.length > 0){
+            hourText += " - Rooms: ";
+            roomsForHour.forEach(room => {
+                let roomButton = document.createElement("button");
+                roomButton.innerText = room;
+                roomButton.className = "room-btn";
+                hourCol.appendChild(roomButton);
+            });
+        } else {
+            hourCol.innerText = hourText;
+        }
         calendar.appendChild(row);
         }
         dayDiv.appendChild(calendar);
         calendarContainer.appendChild(dayDiv);
     }
+
+    function isDateInCheckStatusRange(date) {
+        for (let status of checkStatusData) {
+            let checkInDate = new Date(status.checkIn);
+            let checkOutDate = new Date(status.checkOut);
+            
+            if (date >= checkInDate && date <= checkOutDate) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function getRoomsForDate(date) {
+        let rooms = [];
+        for (let status of checkStatusData) {
+            let checkInDate = new Date(status.checkIn);
+            let checkOutDate = new Date(status.checkOut);
+            
+            if (date >= checkInDate && date <= checkOutDate) {
+                rooms.push(status.oda);  
+            }
+        }
+        return rooms;
+    }
+    
+
     prevMonthButton.addEventListener('click', function() {
     if (currentView === "month") {
         currentMonth--;
@@ -245,13 +322,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     displayView("month");
-
-    const emptyRoomsDiv = document.getElementById("empty-rooms");
-    const emptyRooms = [101, 102, 103, 104];
-    emptyRooms.forEach(roomNumber => {
-        const roomButton = document.createElement("button");
-        roomButton.className = "btn btn-outline-primary";
-        roomButton.innerText = roomNumber;
-        emptyRoomsDiv.appendChild(roomButton);
-    });
 });
