@@ -46,7 +46,11 @@
                     <div class="mt-5 text-center">
                         <h6>Boş Odalar</h6>
                         <div id="empty-rooms" class="d-flex flex-wrap justify-content-center">
-                            <!-- Empty rooms will be populated here -->
+                            {% for oda in odalar %}
+                                {% if oda.odaBosMu == True  %}
+                                <a href="{% url "odadetay" oda.id %}"><button class="btn btn-outline-primary m-2">{{ oda.odaNumarasi }}</button></a>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

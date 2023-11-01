@@ -152,7 +152,10 @@ def odadetay(request,odaID):
 # Blokaj sayfası
 @login_required(login_url='anasayfa')
 def blokaj(request):
-    return render(request,'blokaj.html')
+    context = {}
+    odalar = OtelOda.objects.all()
+    context["odalar"] = odalar
+    return render(request, 'blokaj.html', context)
 
 @login_required(login_url='anasayfa')
 def odasil(request,odaID):
