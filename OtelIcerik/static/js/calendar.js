@@ -20,11 +20,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const apiBaglantisi = async () => {
         const request = await fetch('http://127.0.0.1:8000/api/v1/checkstatus')
         const response = await request.json()
-        
+        checkStatusData.push(...response)
     }
 
     apiBaglantisi()
 
+
+    console.log("gelenveri : ", checkStatusData);
+    
     function displayView(viewType) {
         calendarContainer.innerHTML = ''; 
         currentView = viewType;
