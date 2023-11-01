@@ -18,9 +18,17 @@ document.addEventListener("DOMContentLoaded", function () {
     let checkStatusData = [];
 
     const apiBaglantisi = async () => {
-        const request = await fetch('http://127.0.0.1:8000/api/v1/checkstatus')
-        const response = await request.json()
-        checkStatusData.push(...response)
+        try {
+            const request = await fetch('http://127.0.0.1:8000/api/v1/checkstatus')
+            const response = await request.json();
+            if(response){
+                checkStatusData.push(...response)
+            }else{
+                console.log("Beklenmeyen bir hata oluştu.")
+            }
+        } catch (error) {
+            console.log("Api Hatası Mevcuttur: " ,error);
+        }
     }
 
     apiBaglantisi()
