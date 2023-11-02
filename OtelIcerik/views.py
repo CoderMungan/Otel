@@ -4,6 +4,13 @@ from django.shortcuts import render,redirect
 import traceback
 
 
+# TimeZone
+from django.utils import timezone
+
+# CronJob
+from .cronjob import start_jobs
+from .jobs import *
+
 # ObjeYokİse
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -158,6 +165,8 @@ def blokaj(request):
     odalar = OtelOda.objects.all()
     context["odalar"] = odalar
     return render(request, 'blokaj.html', context)
+
+
 
 @login_required(login_url='anasayfa')
 def odasil(request,odaID):
