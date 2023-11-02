@@ -1,5 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from .jobs import odaDurumuDegistir
+
+
 def start_jobs():
     scheduler = BackgroundScheduler()
     

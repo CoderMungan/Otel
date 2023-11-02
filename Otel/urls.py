@@ -23,6 +23,7 @@ from django.urls import path, include, re_path, include
 
 # CronJob
 from OtelIcerik.cronjob import start_jobs
+from OtelIcerik.jobs import *
 
 from OtelIcerik.views import *
 from OtelRestApiBlokaj.views import *
