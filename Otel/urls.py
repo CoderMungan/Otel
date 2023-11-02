@@ -20,6 +20,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path, include
 
+
+# CronJob
+from OtelIcerik.cronjob import start_jobs
+
 from OtelIcerik.views import *
 from OtelRestApiBlokaj.views import *
 
@@ -60,3 +64,6 @@ urlpatterns = [
     # 404 Sayfası
     re_path(r'^.*/$', hatasayfasi, name="404"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+start_jobs()
