@@ -10,4 +10,4 @@ const checkStatusApi = async () => {
     deneme = response
 }
 
-setInterval(checkStatusApi, 3000)
+setInterval(checkStatusApi, 60000)
