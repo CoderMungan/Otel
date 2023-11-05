@@ -69,7 +69,6 @@ class KonukCheckInveCheckOut(models.Model):
     checkIn = models.DateTimeField(("Check-In Zamanı"), auto_now=False, auto_now_add=False)
     checkOut = models.DateTimeField(("Check-Out Zamanı"), auto_now=False, auto_now_add=False)
     
-
     class Meta:
         verbose_name = "CheckInCheckOut"
         verbose_name_plural = "CheckInCheckOut"

@@ -136,6 +136,8 @@ def odadetay(request,odaID):
 
     context = {}
 
+    misafir = KonukCheckInveCheckOut.objects.filter(oda__id = odaID).first()
+    context['misafir'] = misafir
     try:
         ilgiliOda = OtelOda.objects.get(id = odaID)
         context['ilgiliOda'] = ilgiliOda
@@ -188,6 +190,8 @@ def misafirdetay(request,misafirID):
     context = {}
     konuk = KonukBilgileri.objects.filter(id = misafirID).first()
     context['kisi'] = konuk
+    girisCikis = KonukCheckInveCheckOut.objects.filter(konuk = konuk).first()
+    context['cikisgiris'] = girisCikis
 
     musteriForm = UpdateMusteriDetay(instance=konuk)
     context["musteriform"] = musteriForm
