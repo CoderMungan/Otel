@@ -37,11 +37,30 @@
             <h5 class="text-center">Oda İçeride Bulunan Müşteri</h5>
             <div class="card shadow-lg">
                 <div class="card-body">
-
+                    <div class="text-center">
+                        {% if misafir %}
+                        <h6 class="text-center">Müşteri Adı Soyadı: </h6>
+                        <p>{{misafir.konuk.firstname}} {{misafir.konuk.lastname}} <a class="ms-2" href="{% url 'misafirdetay' misafir.konuk.id %}"><i class="fa-solid fa-wand-magic-sparkles"></i></a></p> 
+                        <div class="text-center mt-3">
+                            <h6 class="text-center">Check-In Tarihi:</h6>
+                            {{misafir.checkIn}}
+                        </div>
+                        <div class="text-center mt-3">
+                            <h6 class="text-center">Check-Out Tarihi:</h6>
+                            {{misafir.checkOut}}
+                        </div>
+                        <div class="text-center mt-3">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#checkoutModal">Check Out</button>
+                        </div>
+                        {% else %}
+                        <h6 class="text-center">Odada Müşteri Bulunmamaktadır!</h6>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- Oda Menüsü Tarafı -->
         <div class="col-md-3">
             <h5 class="text-center">Oda Menüsü</h5>
@@ -65,4 +84,5 @@
 
     {% include "./Components/_addguestmodal.html" %}
     {% include "./Components/_deleteroommodal.html" %}
+    {% include "./Components/_checkoutmodal.html" %}
     {% endblock site-icerik %}
