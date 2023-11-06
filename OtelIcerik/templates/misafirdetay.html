@@ -27,24 +27,28 @@
                         <div class="col-md-6">
                             <p class="text-center"><strong>Adı:</strong></p>
                             <p class="text-center"><strong>Uyruğu:</strong></p>
-                            {% if kisi.musteriTC != "" %}
+                            {% if kisi.musteriTC|length != 0 %}
                             <p class="text-center"><strong>Tc Kimlik Numarası:</strong></p>
                             {% else %}
                             <p class="text-center"><strong>Passaport ID Numarası:</strong></p>
                             {% endif %}
                             <p class="text-center"><strong>Odaya Giriş Tarihi:</strong></p>
                             <p class="text-center"><strong>Odadan Çıkış Yapacağı Tarih:</strong></p>
+                            <p class="text-center"><strong>Fiyat:</strong></p>
                         </div>
                         <div class="col-md-6">
                             <p class="text-center">{{ kisi.firstname }} {{ kisi.lastname }}</p>
                             <p class="text-center">{{ kisi.uyrugu }} </p>
-                            {% if kisi.guest_tc != "" %}
+                            {% if kisi.musteriTC|length != 0 %}
                             <p class="text-center">{{ kisi.musteriTC }} </p>
                             {% else %}
-                            <p class="text-center">{{ kisi.musteriID }} </p>
+                            <p class="text-center"> {{kisi.musteriID }}</p>
                             {% endif %}
                             <p class="text-center">{{ cikisgiris.checkIn }} </p>
                             <p class="text-center">{{ cikisgiris.checkOut }} </p> 
+                            <p class="text-center">{{ kisi.fiyat }} {% if kisi.kur == "TRY" %}
+                                ₺ {% elif kisi.kur == "EURO" %} € {% elif kisi.kur == "USD" %} $ {% else %} £
+                            {% endif %}</p> 
                         </div>
                     </div>
                     <hr>
@@ -52,7 +56,9 @@
                         {% csrf_token %}
                         {{ musteriform }}
                         <div class="text-center">
-                            <button class="btn btn-success">Notu Kaydet</button>
+                            <button class="btn btn-success me-2">Notu Kaydet</button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#checkoutdetailModal">CheckOut
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -60,4 +66,5 @@
         </div>
     </div>
 </div>
+{% include "./Components/_checkoutdetail.html" %}
 {% endblock site-icerik %}

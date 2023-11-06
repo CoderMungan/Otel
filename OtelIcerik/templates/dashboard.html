@@ -38,14 +38,13 @@ Dashboard
             <div class="card-body">
               <!-- Müşteri Not Elemanları Gelecek -->
               {% for musteri in musteriler %}
-              {% if musteri.musteriNotu %}
-              <a href="{% url 'misafirdetay' musteri.id %}" class="link-underline link-underline-opacity-0">
-                <p class="text-center">{{musteri.firstname}} {{musteri.lastname}}
-                  <span class="badge bg-danger ms-1" id="blink">Not</span>
+              {% if musteri.konuk.musteriNotu|length %}
+              <a href="{% url 'misafirdetay' musteri.konuk.id %}" class="link-underline link-underline-opacity-0">
+                <p class="text-center">{{musteri.konuk.firstname}} {{musteri.konuk.lastname}}
+                  <span class="badge bg-danger ms-1" id="blink">{{musteri.oda.odaNumarasi}}</span>
                 </p>
               </a>
-              {% else %}
-                <p class="text-center mb-0">Müşteri Notu Bulunmamaktadır!</p>
+              {% elif musteri.konuk.musteriNotu|length == 0 %}
               {% endif %}
               {% endfor %}
             </div>
