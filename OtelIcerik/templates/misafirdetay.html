@@ -25,7 +25,8 @@
                 <div class="card-body">
                     <div class="row justify-content-between">
                         <div class="col-md-6">
-                            <p class="text-center"><strong>Adı:</strong></p>
+                            <p class="text-center"><strong>Adı Soyadı:</strong></p>
+                            <p class="text-center"><strong>Doğum Tarihi:</strong></p>
                             <p class="text-center"><strong>Uyruğu:</strong></p>
                             {% if kisi.musteriTC|length != 0 %}
                             <p class="text-center"><strong>Tc Kimlik Numarası:</strong></p>
@@ -38,6 +39,7 @@
                         </div>
                         <div class="col-md-6">
                             <p class="text-center">{{ kisi.firstname }} {{ kisi.lastname }}</p>
+                            <p class="text-center">{{ kisi.birthday }}</p>
                             <p class="text-center">{{ kisi.uyrugu }} </p>
                             {% if kisi.musteriTC|length != 0 %}
                             <p class="text-center">{{ kisi.musteriTC }} </p>
