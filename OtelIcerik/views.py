@@ -70,8 +70,8 @@ def dashboard(request):
     oda = OtelOda.objects.filter(otel = otel).all()
     context['odalar'] = oda
 
-    konuk = KonukBilgileri.objects.filter(otel = otel).all()
-    context['musteriler'] = konuk
+    checkinout = KonukCheckInveCheckOut.objects.filter(otel = otel).all()
+    context['musteriler'] = checkinout
 
     return render(request,'dashboard.html', context)
 
@@ -112,11 +112,12 @@ def misafirekle(request, odaID):
             passaport = request.POST.get('passaport')
             musterinotu = request.POST.get('guest_note')
             musterifiyat = request.POST.get('price')
+            musteriparabirimi = request.POST.get('parabirimi')
             checkin = request.POST.get('checkin')
             checkout = request.POST.get('checkout')
             if firstname and lastname and uyruk and musterifiyat and checkin and checkout:
                 if tckimlik or passaport:
-                    KonukBilgileri.objects.create(otel = otel, firstname = firstname, lastname = lastname, uyrugu = uyruk, musteriTC = tckimlik, musteriID = passaport, musteriNotu = musterinotu, fiyat = musterifiyat)
+                    KonukBilgileri.objects.create(otel = otel, firstname = firstname, lastname = lastname, uyrugu = uyruk, musteriTC = tckimlik, musteriID = passaport, musteriNotu = musterinotu, fiyat = musterifiyat, kur = musteriparabirimi)
                     # Kayıt sonrası kişi bilgilerini çek
                     kisi = KonukBilgileri.objects.filter(otel = otel, firstname = firstname, lastname = lastname).first()
                     KonukCheckInveCheckOut.objects.create(otel = otel, konuk = kisi, oda = oda, checkIn = checkin, checkOut = checkout)
@@ -192,7 +193,6 @@ def misafirdetay(request,misafirID):
     context['kisi'] = konuk
     girisCikis = KonukCheckInveCheckOut.objects.filter(konuk = konuk).first()
     context['cikisgiris'] = girisCikis
-
     musteriForm = UpdateMusteriDetay(instance=konuk)
     context["musteriform"] = musteriForm
 
@@ -203,8 +203,17 @@ def misafirdetay(request,misafirID):
             messages.success(request, "Müşteriye not başarıyla eklendi!")
             return redirect("misafirdetay", misafirID)
 
-
     return render(request, 'misafirdetay.html', context)
+
+@login_required(login_url='anasayfa')
+def checkoutyaptir(request,misafirID):
+    checkoutislemi = KonukCheckInveCheckOut.objects.filter(konuk__id = misafirID).first()
+    
+    if checkoutislemi and request.user.is_authenticated:
+        checkoutislemi.delete()
+        return redirect('dashboard')
+    else:
+        return redirect('404')
 
 
 

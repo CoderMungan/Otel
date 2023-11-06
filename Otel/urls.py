@@ -45,6 +45,9 @@ urlpatterns = [
 
     # Misafir Ekle
     path('misafirekle/<odaID>', misafirekle, name="misafirekle"),
+
+    # Misafir Checkout
+    path('misafircheckout/<misafirID>', checkoutyaptir, name="misafircheckout"),
     
     # Blokaj Sayfası
     path('blokaj', blokaj, name="blokaj"),

@@ -52,6 +52,7 @@ class KonukBilgileri(models.Model):
     musteriID = models.CharField(("Müşteri Passaport Numarası"), max_length=50, blank = True)
     musteriNotu = models.TextField(("Müşteri Notu"), max_length=250, default="", blank=True)
     fiyat = models.DecimalField(("Fiyat"), max_digits=10, decimal_places=2, default= 000.00, blank=True)
+    kur = models.CharField(("Para Birimi"), max_length=50, default="TRY", blank=True)
 
     class Meta:
         verbose_name = "Konuk Bilgileri"
