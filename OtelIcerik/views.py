@@ -81,20 +81,22 @@ def odaEkle(request):
 
     otel = OtelYonetim.objects.filter(owner = request.user).first()
 
-    if request.method == "POST":
-        odatipi = request.POST.get('room-tipi')
-        odanumarasi = request.POST.get('room-numarasi')
-        if odatipi and odanumarasi:
-            yeniOda = OtelOda.objects.create(otel = otel, odaNumarasi = odanumarasi, odaTipi = odatipi )
-            if yeniOda is None:
-                messages.error(request, "Bilinmeyen bir hatadan dolayi Odayi eklenemedi.")
-                return redirect('dashboard')
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            odatipi = request.POST.get('room-tipi')
+            odanumarasi = request.POST.get('room-numarasi')
+            if odatipi and odanumarasi:
+                yeniOda = OtelOda.objects.create(otel = otel, odaNumarasi = odanumarasi, odaTipi = odatipi )
+                if yeniOda is None:
+                    messages.error(request, "Bilinmeyen bir hatadan dolayi Odayi eklenemedi.")
+                    return redirect('dashboard')
+                else:
+                    return redirect('dashboard')
             else:
-                return redirect('dashboard')
-        else:
-            messages.warning(request,"Lutfen Tüm Alanları Doldurunuz!")
-    
-    return redirect('dashboard')
+                messages.warning(request,"Lutfen Tüm Alanları Doldurunuz!")
+        return redirect('dashboard')
+    else:
+        return redirect('anasayfa')
 
 
 @login_required(login_url="anasayfa")
@@ -103,10 +105,11 @@ def misafirekle(request, odaID):
     otel = OtelYonetim.objects.filter(owner = request.user).first()
     oda = OtelOda.objects.filter(id = odaID).first()
     
-    if request.user:
+    if request.user.is_authenticated:
         if request.method == "POST":
             firstname = request.POST.get('first')
             lastname = request.POST.get('last')
+            birthday = request.POST.get('dogumtarihi')
             uyruk = request.POST.get('uyruk')
             tckimlik = request.POST.get('tc')
             passaport = request.POST.get('passaport')
@@ -117,7 +120,7 @@ def misafirekle(request, odaID):
             checkout = request.POST.get('checkout')
             if firstname and lastname and uyruk and musterifiyat and checkin and checkout:
                 if tckimlik or passaport:
-                    KonukBilgileri.objects.create(otel = otel, firstname = firstname, lastname = lastname, uyrugu = uyruk, musteriTC = tckimlik, musteriID = passaport, musteriNotu = musterinotu, fiyat = musterifiyat, kur = musteriparabirimi)
+                    KonukBilgileri.objects.create(otel = otel, firstname = firstname, lastname = lastname, birthday = birthday ,uyrugu = uyruk, musteriTC = tckimlik, musteriID = passaport, musteriNotu = musterinotu, fiyat = musterifiyat, kur = musteriparabirimi)
                     # Kayıt sonrası kişi bilgilerini çek
                     kisi = KonukBilgileri.objects.filter(otel = otel, firstname = firstname, lastname = lastname).first()
                     KonukCheckInveCheckOut.objects.create(otel = otel, konuk = kisi, oda = oda, checkIn = checkin, checkOut = checkout)
@@ -129,7 +132,7 @@ def misafirekle(request, odaID):
             return redirect('404')
     else:
         messages.error(request, "Lütfen Giriş Yapınız!")
-        return redirect('404')
+        return redirect('anasayfa')
 
 
 @login_required(login_url="anasayfa")
@@ -137,21 +140,23 @@ def odadetay(request,odaID):
 
     context = {}
 
-    misafir = KonukCheckInveCheckOut.objects.filter(oda__id = odaID).first()
-    context['misafir'] = misafir
+    misafir = KonukCheckInveCheckOut.objects.filter(oda__id = odaID).all()
+    context['misafirler'] = misafir
     try:
         ilgiliOda = OtelOda.objects.get(id = odaID)
         context['ilgiliOda'] = ilgiliOda
         ilgiliOdaForm = UpdateOtelOdaForm(instance = ilgiliOda)
         context['form'] = ilgiliOdaForm
-
-        if request.method == "POST":
-            form = UpdateOtelOdaForm(request.POST,instance = ilgiliOda)
-            if form.is_valid():
-                form.save()
-                return redirect('odadetay', odaID)
-            else:
-                messages.error(request,"Hatalı Veri Girişi Olmuştur.")
+        if request.user.is_authenticated:
+            if request.method == "POST":
+                form = UpdateOtelOdaForm(request.POST,instance = ilgiliOda)
+                if form.is_valid():
+                    form.save()
+                    return redirect('odadetay', odaID)
+                else:
+                    messages.error(request,"Hatalı Veri Girişi Olmuştur.")
+        else:
+            return redirect('anasayfa')
     # except Exception as a:
     except OtelOda.DoesNotExist:
         # Exceptionsların hatasını konsola basar
@@ -176,7 +181,7 @@ def odasil(request,odaID):
 
     oda = OtelOda.objects.filter(id = odaID).first()
 
-    if oda and request.user:
+    if oda and request.user.is_authenticated:
         oda.delete()
         messages.success(request, f'{oda} Numaralı Oda Başarıyla Silindi')
         return redirect('dashboard')
@@ -196,12 +201,15 @@ def misafirdetay(request,misafirID):
     musteriForm = UpdateMusteriDetay(instance=konuk)
     context["musteriform"] = musteriForm
 
-    if request.method == "POST":
-        form = UpdateMusteriDetay(request.POST, instance=konuk)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Müşteriye not başarıyla eklendi!")
-            return redirect("misafirdetay", misafirID)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = UpdateMusteriDetay(request.POST, instance=konuk)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Müşteriye not başarıyla eklendi!")
+                return redirect("misafirdetay", misafirID)
+    else:
+        return redirect('anasayfa')
 
     return render(request, 'misafirdetay.html', context)
 
@@ -225,8 +233,11 @@ def muhasebe(request):
 # Logout Sayfasıdır
 @login_required(login_url="anasayfa")
 def cikisYap(request):
-    logout(request)
-    return redirect('anasayfa')
+    if request.user.is_authenticated:
+        logout(request)
+        return redirect('anasayfa')
+    else:
+        return redirect('404')
 
 
 # 404 Sayfası
