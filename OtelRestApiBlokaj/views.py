@@ -32,7 +32,8 @@ def send_routes(request):
 @login_required(login_url='anasayfa')
 def checkstatus(request):
 
-    konuk = KonukCheckInveCheckOut.objects.all()
-    konukserilize = CheckinCheckOut(konuk , many=True)
+    if request.user.is_authenticated:
+        konuk = KonukCheckInveCheckOut.objects.all()
+        konukserilize = CheckinCheckOut(konuk , many=True)
 
     return Response(konukserilize.data)
