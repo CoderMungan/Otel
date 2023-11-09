@@ -1,6 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
     const tarih = new Date().toISOString()
 
+    const randomHexColor = () => {
+        const red = Math.floor(Math.random() * 256)
+        const blue = Math.floor(Math.random() * 256)
+        const green = Math.floor(Math.random() * 256)
+
+        return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`;
+    }
+
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -14,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
             right: 'timeGridDay,timeGridWeek,dayGridMonth'
         },
         events: '/api/v1/checkstatus?format=json',
-        eventColor: '#940101'
+        eventColor: randomHexColor(),
     });
 
     calendar.render();
