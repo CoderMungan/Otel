@@ -15,34 +15,9 @@
     width: 450px;
 }
 
-/* Takvim */
-
-.calendar-month {
-    margin-bottom: 40px;
+.fc-col-header-cell-cushion{
+    text-decoration: none;
 }
-.calendar .row {
-    border-bottom: 1px solid #ddd;
-}
-.calendar .col {
-    height: 60px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-right: 1px solid #ddd;
-}
-.calendar .col:last-child {
-    border-right: none;
-}
-.calendar .row:last-child .col {
-    border-bottom: none;
-}
-#empty-rooms button {
-    margin: 5px;
-    padding: 10px 20px;
-}
-@media (max-width: 768px) {
-    #empty-rooms button {
-        padding: 5px 10px;
-        font-size: 0.8em;
-    }
+.fc-daygrid-day-number{
+    text-decoration: none;
 }

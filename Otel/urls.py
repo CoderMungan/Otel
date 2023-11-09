@@ -33,6 +33,7 @@ urlpatterns = [
     # Anasayfa Login Sayfası
     path('', anasayfa, name="anasayfa"),
 
+    
     # Api'leri includes et
     path('api/v1/', send_routes, name="apitest"),
     path('api/v1/checkstatus', checkstatus, name="checkstatus" ),

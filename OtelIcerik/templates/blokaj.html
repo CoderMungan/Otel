@@ -6,12 +6,9 @@
 {% endblock site-title %}
 
 {% block site-icerik %}
-<!-- Navbar -->
 {% include "./Components/_navbar.html" %}
-
 <div class="container mt-5">
     <div class="row justify-content-around">
-        <!-- Left Panel -->
         <div class="col-md-3">
             <h5 class="text-center">Oda Yapılandırma Menüsü</h5>
             <div class="card shadow-lg">
@@ -24,40 +21,35 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Calendar -->
-        <div class="col-md-9">
-            <h5 class="text-center">Blokaj Sayfasıdır</h5>
-            <div class="card shadow-lg">
-                <div class="card-body p-5">
-                    <div class="text-center mb-3">
-                        <button id="viewMonth" class="btn btn-secondary mr-2">Ay</button>
-                        <button id="viewWeek" class="btn btn-secondary mr-2">Hafta</button>
-                        <button id="viewDay" class="btn btn-secondary mr-2">Gün</button>
-                        <button id="prevMonth" class="btn btn-secondary mr-2">Geri</button>
-                        <button id="nextMonth" class="btn btn-secondary ml-2">İleri</button>
-                    </div>
-
-                    <!-- Calendar Container -->
-                    <div id="full-year-calendar"></div>
-
-                    <!-- Empty Rooms Section -->
-                    <div class="mt-5 text-center">
-                        <h6>Boş Odalar</h6>
-                        <div id="empty-rooms" class="d-flex flex-wrap justify-content-center">
-                            {% for oda in odalar %}
-                                {% if oda.odaBosMu == True  %}
-                                <a href="{% url "odadetay" oda.id %}"><button class="btn btn-outline-primary m-2">{{ oda.odaNumarasi }}</button></a>
-                                {% endif %}
-                            {% endfor %}
+            <div class="row">
+                <div class="col">
+                    <h5 class="text-center mt-3">Boş Odalar</h5>
+                    <div class="card">
+                        <div class="card-body mb-3">
+                            <div class="text-center">
+                                <div id="empty-rooms" class="d-flex flex-wrap justify-content-center">
+                                    {% for oda in odalar %}
+                                        {% if oda.odaBosMu == True  %}
+                                        <a href="{% url 'odadetay' oda.id %}"><button class="btn btn-outline-primary m-2">{{ oda.odaNumarasi }}</button></a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-9">
+            <h5 class="text-center">Güncel Takvim</h5>
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 <script src="{% static '/js/calendar.js' %}"></script>
 {% endblock site-icerik %}

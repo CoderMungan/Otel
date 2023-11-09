@@ -223,8 +223,6 @@ def checkoutyaptir(request,misafirID):
     else:
         return redirect('404')
 
-
-
 # Muhasebe
 @login_required(login_url='anasayfa')
 def muhasebe(request):
