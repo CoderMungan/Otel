@@ -70,6 +70,7 @@ class KonukCheckInveCheckOut(models.Model):
     oda = models.ForeignKey(OtelOda, verbose_name=("Otel Oda"), on_delete=models.CASCADE)
     checkIn = models.DateTimeField(("Check-In Zamanı"), auto_now=False, auto_now_add=False)
     checkOut = models.DateTimeField(("Check-Out Zamanı"), auto_now=False, auto_now_add=False)
+    eventColor = models.CharField(("Renk"), max_length=50, default="#940101", blank=True)
     
     class Meta:
         verbose_name = "CheckInCheckOut"
