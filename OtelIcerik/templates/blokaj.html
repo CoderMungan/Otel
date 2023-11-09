@@ -21,6 +21,24 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <h5 class="text-center mt-3">Boş Odalar</h5>
+                    <div class="card">
+                        <div class="card-body mb-3">
+                            <div class="text-center">
+                                <div id="empty-rooms" class="d-flex flex-wrap justify-content-center">
+                                    {% for oda in odalar %}
+                                        {% if oda.odaBosMu == True  %}
+                                        <a href="{% url 'odadetay' oda.id %}"><button class="btn btn-outline-primary m-2">{{ oda.odaNumarasi }}</button></a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-md-9">
@@ -28,16 +46,6 @@
             <div class="card shadow-lg">
                 <div class="card-body">
                     <div id='calendar'></div>
-                    <div class="mt-5 text-center">
-                        <h6>Boş Odalar</h6>
-                        <div id="empty-rooms" class="d-flex flex-wrap justify-content-center">
-                            {% for oda in odalar %}
-                                {% if oda.odaBosMu == True  %}
-                                <a href="{% url 'odadetay' oda.id %}"><button class="btn btn-outline-primary m-2">{{ oda.odaNumarasi }}</button></a>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
