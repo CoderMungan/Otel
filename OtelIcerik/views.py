@@ -104,8 +104,10 @@ def misafirekle(request, odaID):
 
     otel = OtelYonetim.objects.filter(owner = request.user).first()
     oda = OtelOda.objects.filter(id = odaID).first()
-    
+    guncel_zaman = timezone.now()
+    # Güvenlik Mekanizması
     if request.user.is_authenticated:
+        # Form Yapısı
         if request.method == "POST":
             firstname = request.POST.get('first')
             lastname = request.POST.get('last')
@@ -124,8 +126,13 @@ def misafirekle(request, odaID):
                     # Kayıt sonrası kişi bilgilerini çek
                     kisi = KonukBilgileri.objects.filter(otel = otel, firstname = firstname, lastname = lastname).first()
                     KonukCheckInveCheckOut.objects.create(otel = otel, konuk = kisi, oda = oda, checkIn = checkin, checkOut = checkout)
-                    oda.odaBosMu = False
-                    oda.save()
+                    if guncel_zaman == checkin:
+                        oda.odaRezerveMi = False
+                        oda.odaBosMu = False
+                        oda.save()
+                    elif guncel_zaman < checkin:
+                        oda.odaRezerveMi == True
+                        oda.save()
                     messages.success(request, "Müşteri başarıyla kaydedilmiştir!")
                     return redirect('odadetay', odaID)
         else:
@@ -139,9 +146,9 @@ def misafirekle(request, odaID):
 def odadetay(request,odaID):
 
     context = {}
-
     misafir = KonukCheckInveCheckOut.objects.filter(oda__id = odaID).all()
     context['misafirler'] = misafir
+
     try:
         ilgiliOda = OtelOda.objects.get(id = odaID)
         context['ilgiliOda'] = ilgiliOda
@@ -170,12 +177,32 @@ def odadetay(request,odaID):
 @login_required(login_url='anasayfa')
 def blokaj(request):
     context = {}
-    odalar = OtelOda.objects.all()
+    otel = OtelYonetim.objects.filter(owner = request.user).first()
+
+    odalar = OtelOda.objects.filter(otel = otel).all()
     context["odalar"] = odalar
+    ilgiliform = UpdateBlokaj()
+    context['blokajForm'] = ilgiliform
+
+    blokaj = KonukCheckInveCheckOut.objects.filter(otel = otel).first()
+
+
+    if request.method == "POST":
+        form = UpdateBlokaj(request.POST,instance=blokaj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Blokaj Atanmıştır!")
+            return redirect('blokaj')
+
+
+
     return render(request, 'blokaj.html', context)
 
 
 
+
+
+# Oda sil functions
 @login_required(login_url='anasayfa')
 def odasil(request,odaID):
 

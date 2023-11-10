@@ -1759,7 +1759,7 @@ Docs & License: https://fullcalendar.io
         buttonText: {
             prev: 'geri',
             next: 'ileri',
-            today: 'bugün',
+            today: 'Bugün',
             year: 'Yıl',
             month: 'Ay',
             week: 'Hafta',

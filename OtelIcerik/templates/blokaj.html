@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <!-- Menü Elemanları Gelecek -->
                     <div class="text-center">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roomadd">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#blokajadd">
                             Blokaj Ata
                         </button>
                     </div>
@@ -52,4 +52,5 @@
     </div>
 </div>
 <script src="{% static '/js/calendar.js' %}"></script>
+{% include "./Components/_addblokajmodal.html" %}
 {% endblock site-icerik %}
