@@ -7,7 +7,7 @@ def odaDurumuDegistir():
     guncel_zaman = timezone.now()
 
     checkouts = KonukCheckInveCheckOut.objects.filter(checkOut__lt = guncel_zaman)
-    checkins = KonukCheckInveCheckOut.objects.filter(checkIn__lt = guncel_zaman)
+    checkins = KonukCheckInveCheckOut.objects.filter(checkIn__gte = guncel_zaman)
 
     if checkins:
         for odaGiris in checkins:
