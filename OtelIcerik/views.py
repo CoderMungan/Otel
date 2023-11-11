@@ -104,7 +104,6 @@ def misafirekle(request, odaID):
 
     otel = OtelYonetim.objects.filter(owner = request.user).first()
     oda = OtelOda.objects.filter(id = odaID).first()
-    guncel_zaman = timezone.now()
     # Güvenlik Mekanizması
     if request.user.is_authenticated:
         # Form Yapısı
@@ -125,15 +124,9 @@ def misafirekle(request, odaID):
                     KonukBilgileri.objects.create(otel = otel, firstname = firstname, lastname = lastname, birthday = birthday ,uyrugu = uyruk, musteriTC = tckimlik, musteriID = passaport, musteriNotu = musterinotu, fiyat = musterifiyat, kur = musteriparabirimi)
                     # Kayıt sonrası kişi bilgilerini çek
                     kisi = KonukBilgileri.objects.filter(otel = otel, firstname = firstname, lastname = lastname).first()
-                    KonukCheckInveCheckOut.objects.create(otel = otel, konuk = kisi, oda = oda, checkIn = checkin, checkOut = checkout)
-                    if guncel_zaman == checkin:
-                        oda.odaRezerveMi = False
-                        oda.odaBosMu = False
-                        oda.save()
-                    elif guncel_zaman < checkin:
-                        oda.odaRezerveMi == True
-                        oda.save()
+                    checkOl = KonukCheckInveCheckOut.objects.create(otel = otel, konuk = kisi, oda = oda, checkIn = checkin, checkOut = checkout)
                     messages.success(request, "Müşteri başarıyla kaydedilmiştir!")
+                    odastatus(checkOl,odaID)
                     return redirect('odadetay', odaID)
         else:
             return redirect('404')

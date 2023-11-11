@@ -33,7 +33,7 @@ def send_routes(request):
 def checkstatus(request):
 
     if request.user.is_authenticated:
-        konuk = KonukCheckInveCheckOut.objects.all()
-        konukserilize = CheckinCheckOut(konuk , many=True)
+        konuk = KonukCheckInveCheckOut.objects.filter(otel__owner = request.user).all()
+        konukserilize = CheckinCheckOut(konuk,many=True)
 
     return Response(konukserilize.data)
