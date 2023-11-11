@@ -162,7 +162,6 @@ def odadetay(request,odaID):
         # Exceptionsların hatasını konsola basar
         # traceback.print_exc()
         return redirect('404')
-
     return render(request, "odadetay.html",context)
 
 
