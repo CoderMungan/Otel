@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
             right: 'timeGridDay,timeGridWeek,dayGridMonth'
         },
         events: '/api/v1/checkstatus?format=json',
-        eventColor: randomHexColor(),
     });
 
     calendar.render();
