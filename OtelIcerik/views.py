@@ -3,6 +3,11 @@ from django.shortcuts import render, redirect
 # Müsti Abi
 import traceback
 
+# Utilities
+from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseRedirect
+
+# Typing
+import typing as t
 
 # TimeZone
 from django.utils import timezone
@@ -35,7 +40,10 @@ from django.contrib import messages
 # Create your views here.
 
 
-def anasayfa(request):
+RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
+
+
+def anasayfa(request: HttpRequest) -> RedirectOrResponse:
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -62,7 +70,7 @@ def anasayfa(request):
 
 # Dashboard sayfasıdır
 @login_required(login_url="anasayfa")
-def dashboard(request):
+def dashboard(request: HttpRequest) -> HttpResponse:
     context = {}
 
     otel = OtelYonetim.objects.filter(owner=request.user).first()
@@ -76,7 +84,7 @@ def dashboard(request):
 
 
 @login_required(login_url="anasayfa")
-def odaEkle(request):
+def odaEkle(request: HttpRequest) -> RedirectOrResponse:
     otel = OtelYonetim.objects.filter(owner=request.user).first()
 
     if request.user.is_authenticated:
@@ -102,7 +110,7 @@ def odaEkle(request):
 
 
 @login_required(login_url="anasayfa")
-def misafirekle(request, odaID):
+def misafirekle(request: HttpRequest, odaID: int) -> RedirectOrResponse:
     otel = OtelYonetim.objects.filter(owner=request.user).first()
     oda = OtelOda.objects.filter(id=odaID).first()
     # Güvenlik Mekanizması
@@ -163,7 +171,7 @@ def misafirekle(request, odaID):
 
 
 @login_required(login_url="anasayfa")
-def odadetay(request, odaID):
+def odadetay(request: HttpRequest, odaID: int) -> RedirectOrResponse:
     context = {}
     misafir = KonukCheckInveCheckOut.objects.filter(oda__id=odaID).all()
     context["misafirler"] = misafir
@@ -193,7 +201,7 @@ def odadetay(request, odaID):
 
 # Blokaj sayfası
 @login_required(login_url="anasayfa")
-def blokaj(request):
+def blokaj(request: HttpRequest) -> RedirectOrResponse:
     context = {}
     otel = OtelYonetim.objects.filter(owner=request.user).first()
 
@@ -220,7 +228,7 @@ def blokaj(request):
 
 # Oda sil functions
 @login_required(login_url="anasayfa")
-def odasil(request, odaID):
+def odasil(request: HttpRequest, odaID: int) -> HttpResponse:
     oda = OtelOda.objects.filter(id=odaID).first()
 
     if oda and request.user.is_authenticated:
@@ -233,7 +241,7 @@ def odasil(request, odaID):
 
 # Misafir Detay
 @login_required(login_url="anasayfa")
-def misafirdetay(request: object, misafirID: int) -> render:
+def misafirdetay(request: HttpRequest, misafirID: int) -> HttpRequest:
     context = {}
     konuk = KonukBilgileri.objects.filter(id=misafirID).first()
     context["kisi"] = konuk
@@ -256,7 +264,7 @@ def misafirdetay(request: object, misafirID: int) -> render:
 
 
 @login_required(login_url="anasayfa")
-def checkoutyaptir(request: object, misafirID: int) -> redirect:
+def checkoutyaptir(request: HttpRequest, misafirID: int) -> HttpResponseRedirect:
     checkoutislemi = KonukCheckInveCheckOut.objects.filter(konuk__id=misafirID).first()
     print("Kişi: ", checkoutislemi.oda.odaNumarasi)
 
@@ -270,13 +278,13 @@ def checkoutyaptir(request: object, misafirID: int) -> redirect:
 
 # Muhasebe
 @login_required(login_url="anasayfa")
-def muhasebe(request):
+def muhasebe(request: HttpRequest) -> HttpRequest:
     return render(request, "muhasebe.html")
 
 
 # Logout Sayfasıdır
 @login_required(login_url="anasayfa")
-def cikisYap(request):
+def cikisYap(request: HttpRequest) -> HttpResponseRedirect:
     if request.user.is_authenticated:
         logout(request)
         return redirect("anasayfa")
@@ -285,5 +293,5 @@ def cikisYap(request):
 
 
 # 404 Sayfası
-def hatasayfasi(request):
+def hatasayfasi(request: HttpRequest) -> HttpResponse:
     return render(request, "404.html")
