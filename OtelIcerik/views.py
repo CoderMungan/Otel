@@ -44,6 +44,7 @@ RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
 
 
 def anasayfa(request: HttpRequest) -> RedirectOrResponse:
+
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
