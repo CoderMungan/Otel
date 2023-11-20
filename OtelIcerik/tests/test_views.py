@@ -17,6 +17,8 @@ class TestViews(TestCase):
             username="test", password="testpassword"
         )
         self.user = User.objects.filter(username="test").first()
+
+        #Login Edelim (Login Required olduğundan dolayı)
         self.client.login(username="test", password="testpassword")
 
         # Otel Yönetim
@@ -29,6 +31,7 @@ class TestViews(TestCase):
         self.otelyonetim = OtelYonetim.objects.filter(owner=self.user).first()
 
     def test_anasayfa(self):
+
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
 
@@ -39,9 +42,9 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, "muhasebe.html")
 
     def test_odaekle_post(self):
+        
 
         post_data = {
-            'otel' : self.otelyonetim,
             'room-tipi' : 'King Suit',
             'room-numarasi' : '201'
         }
@@ -54,6 +57,20 @@ class TestViews(TestCase):
 
         #Veritabanı sorgusu
         self.assertTrue(OtelOda.objects.filter(otel = self.otelyonetim, odaNumarasi = '201', odaTipi = 'King Suit').exists())
+
+    def test_odaekle_post_data_missing(self):
+
+        post_data = {
+            'room-tipi': "Single Room",
+        }
+
+        #Post İsteği
+        response = self.client.post(self.odaekle_url, post_data)
+
+        #Yönlendirmeler Çalıştı mı?
+        self.assertEqual(response.status_code,302)
+        self.assertRedirects(response, self.dashboard_url)
+
 
     def test_odaekle_nonauth(self):
 

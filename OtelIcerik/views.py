@@ -104,7 +104,7 @@ def odaEkle(request: HttpRequest) -> RedirectOrResponse:
                 else:
                     return redirect("dashboard")
             else:
-                messages.warning(request, "Lutfen Tüm Alanları Doldurunuz!")
+                return redirect("dashboard")
         return redirect("dashboard")
     else:
         return redirect("anasayfa")
