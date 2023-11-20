@@ -15,7 +15,7 @@ from django.core.exceptions import ValidationError
 class OtelYonetim(models.Model):
     owner = models.ForeignKey(User, verbose_name=("Otel Sahibi"), on_delete=models.CASCADE)
     title = models.CharField(("Otel Adı"), max_length=50)
-    image = models.ImageField(("Otel Logosu"), upload_to="Logo", height_field=None, width_field=None, max_length=None)
+    image = models.ImageField(("Otel Logosu"), upload_to="Logo", height_field=None, width_field=None, max_length=None, blank=True)
     address = models.CharField(("Otel Adresi"), max_length=50)
     telephone = models.CharField(("Otel Telefon Numarası"), max_length=13)
     class Meta:
