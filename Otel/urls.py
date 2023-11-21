@@ -36,7 +36,7 @@ urlpatterns = [
     
     # Api'leri includes et
     path('api/v1/', send_routes, name="apitest"),
-    path('api/v1/checkstatus', checkstatus, name="checkstatus" ),
+    path('api/v1/checkstatus', checkstatus, name="checkstatus"),
 
     # Otel Oda DashBoard
     path('dashboard', dashboard, name="dashboard"),
