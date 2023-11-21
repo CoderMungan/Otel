@@ -29,7 +29,6 @@ class TestUrls(SimpleTestCase):
         # Functions match
         self.assertEqual(resolve(url).func, checkstatus)
 
-
     def test_misafirdetay_url(self):
         url = reverse('misafirdetay', args=[1])
 
