@@ -1,21 +1,31 @@
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase , Client
 from django.urls import reverse, resolve
 from OtelIcerik.views import *
 from OtelRestApiBlokaj.views import *
 
 class TestUrls(SimpleTestCase):
 
+    def settings(self):
+        self.client = Client()
+
+
     def test_home_url(self):
         url = reverse('anasayfa')
+        response = self.client.get(url)
 
+        # Check the Status Codes
+        self.assertEqual(response.status_code, 200)
         # Functions match
         self.assertEqual(resolve(url).func, anasayfa)
 
     def test_dashboard_url(self):
         url = reverse('dashboard')
+        print(url)
 
+        print("gelen paramlar:", resolve(url))
         # Functions match
-        self.assertEqual(resolve(url).func,dashboard)
+        self.assertEqual(resolve(url).func, dashboard)
+
 
     def test_api_url(self):
         url = reverse("apitest")
