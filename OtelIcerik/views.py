@@ -101,8 +101,12 @@ def odaEkle(request: HttpRequest) -> RedirectOrResponse:
                     )
                     return redirect("dashboard")
                 else:
+                    messages.success(
+                        request, f"Başarıyla {odanumarasi}'nolu odanız oluşturuldu!"
+                    )
                     return redirect("dashboard")
             else:
+                messages.error(request, "Boşlukları Lütfen Doldurunuz")
                 return redirect("dashboard")
         return redirect("dashboard")
     else:
@@ -161,8 +165,15 @@ def misafirekle(request: HttpRequest, odaID: int) -> RedirectOrResponse:
                         checkOut=checkout,
                     )
                     messages.success(request, "Müşteri başarıyla kaydedilmiştir!")
+                    # CronJob Devreye Sok
                     odastatus(checkOl, odaID)
                     return redirect("odadetay", odaID)
+                else:
+                    messages.error(request, "Lütfen Tc Kimliğini veya Passport ID'sini Giriniz!")
+                    return redirect("odadetay", odaID)
+            else:
+                messages.error(request, "Lütfen Boşlukları Eksiksiz Doldurunuz!")
+                return redirect("odadetay", odaID)
         else:
             return redirect("404")
     else:
