@@ -277,7 +277,7 @@ def misafirdetay(request: HttpRequest, misafirID: int) -> HttpRequest:
 @login_required(login_url="anasayfa")
 def checkoutyaptir(request: HttpRequest, misafirID: int) -> HttpResponseRedirect:
     checkoutislemi = KonukCheckInveCheckOut.objects.filter(konuk__id=misafirID).first()
-    print("Kişi: ", checkoutislemi.oda.odaNumarasi)
+    # print("Kişi: ", checkoutislemi.oda.odaNumarasi)
 
     if checkoutislemi and request.user.is_authenticated:
         checkoutislemi.oda.odaBosMu = True
