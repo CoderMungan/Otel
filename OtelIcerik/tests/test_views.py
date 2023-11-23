@@ -233,3 +233,13 @@ class TestViews(TestCase):
         # Yönelendirme İşlemi
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, self.error_url)
+
+    def tearDown(self):
+        self.client.logout()
+        self.usercreate.delete()
+        self.user.delete()
+        self.otelyonetim.delete()
+        self.otelyonetimcreate.delete()
+        self.oda.delete()
+        self.konuk.delete()
+        self.konukcheckincheckout.delete()

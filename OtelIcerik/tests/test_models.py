@@ -62,3 +62,10 @@ class TestModel(TestCase):  # Unutmayın ki bu sınıf django.test.TestCase'den 
 
     def test_checkin_checkout_str(self):
         self.assertEqual(str(self.checkin_checkout), "John Doe")
+    
+    def tearDown(self):
+        self.owner.delete()
+        self.otel.delete()
+        self.oda.delete()
+        self.konuk.delete()
+        self.checkin_checkout.delete()
