@@ -52,6 +52,8 @@ class TestViews(TestCase):
         self.checkout_yaptir_url = reverse(
             "misafircheckout", args=[self.konukcheckincheckout.id]
         )
+        self.checkout_yaptir_invalid_id_url = reverse("misafircheckout", args=[21312731])
+        self.error_url = reverse("404")
 
         # Login Edelim (Login Required olduğundan dolayı)
         self.client.login(username="test", password="testpassword")
@@ -224,3 +226,10 @@ class TestViews(TestCase):
         # Check-in/Check-Out kaydı silindimi ?
         with self.assertRaises(KonukCheckInveCheckOut.DoesNotExist):
             KonukCheckInveCheckOut.objects.get(pk=self.konukcheckincheckout.id)
+    
+    def test_checkoutyaptir_invalid_id_delete(self):
+        response = self.client.get(self.checkout_yaptir_invalid_id_url)
+
+        # Yönelendirme İşlemi
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, self.error_url)
