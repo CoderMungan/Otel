@@ -6,14 +6,16 @@ from datetime import datetime, timedelta
 class TestModel(TestCase):  # Unutmayın ki bu sınıf django.test.TestCase'den türetilmeli
     def setUp(self):
         # Otel sahibi (owner) oluştur
-        self.owner = User.objects.create_user(username='otel_sahibi', password='parola123')
+        self.owner = User.objects.create_user(
+            username="otel_sahibi", password="parola123"
+        )
 
         # Otel bilgileri oluştur
         self.otel = OtelYonetim.objects.create(
             owner=self.owner,
             title="Test Otel",
             address="Test Adres",
-            telephone="1234567890"
+            telephone="1234567890",
         )
 
         # Oda bilgileri oluştur
@@ -38,7 +40,7 @@ class TestModel(TestCase):  # Unutmayın ki bu sınıf django.test.TestCase'den 
             musteriID="ABC123",
             musteriNotu="Test notu",
             fiyat=200.00,
-            kur="USD"
+            kur="USD",
         )
 
         # Check-in ve Check-out işlemi oluştur
@@ -48,8 +50,15 @@ class TestModel(TestCase):  # Unutmayın ki bu sınıf django.test.TestCase'den 
             oda=self.oda,
             checkIn=datetime.now(),
             checkOut=datetime.now() + timedelta(days=1),
-            color="#00FF00"
+            color="#00FF00",
         )
+
+    def tearDown(self):
+        self.owner.delete()
+        self.otel.delete()
+        self.oda.delete()
+        self.konuk.delete()
+        self.checkin_checkout.delete()
 
     def test_otel_str(self):
         self.assertEqual(str(self.otel), "Test Otel")
@@ -62,10 +71,3 @@ class TestModel(TestCase):  # Unutmayın ki bu sınıf django.test.TestCase'den 
 
     def test_checkin_checkout_str(self):
         self.assertEqual(str(self.checkin_checkout), "John Doe")
-    
-    def tearDown(self):
-        self.owner.delete()
-        self.otel.delete()
-        self.oda.delete()
-        self.konuk.delete()
-        self.checkin_checkout.delete()

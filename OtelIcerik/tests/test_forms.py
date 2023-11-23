@@ -36,8 +36,15 @@ class TestForms(TestCase):
             checkIn=timezone.now(),
             checkOut=timezone.now(),
         )
+    
+    def tearDown(self):
+        self.usercreate.delete()
+        self.otelyonetimcreate.delete()
+        self.konukcreate.delete()
+        self.odacreate.delete()
+        self.konukcheckinandcheckout.delete()
 
-    def test_update_otel_oda_form(self):
+    def test_update_otel_oda_form_valid_data(self):
         form_data = {
             "odaNumarasi": "101",
             "odaTipi": "Standart",
@@ -49,14 +56,23 @@ class TestForms(TestCase):
         form = UpdateOtelOdaForm(data=form_data)
         self.assertTrue(form.is_valid())
 
-    def test_update_musteri_detay_form(self):
+    def test_update_otel_oda_form_invalid_data(self):
+        form_data = {}
+
+        form = UpdateOtelOdaForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 2)
+
+
+    def test_update_musteri_detay_form_valid_data(self):
         form_data = {
             "musteriNotu": "Misafir için bir not.",
         }
         form = UpdateMusteriDetay(data=form_data)
         self.assertTrue(form.is_valid())
 
-    def test_update_blokaj_form(self):
+
+    def test_update_blokaj_form_valid_data(self):
         form_data = {
             "konuk": self.konukcreate,
             "oda": self.odacreate,
@@ -67,9 +83,9 @@ class TestForms(TestCase):
         form = UpdateBlokaj(data=form_data)
         self.assertTrue(form.is_valid())
 
-    def tearDown(self):
-        self.usercreate.delete()
-        self.otelyonetimcreate.delete()
-        self.konukcreate.delete()
-        self.odacreate.delete()
-        self.konukcheckinandcheckout.delete()
+    def test_update_blokaj_form_invalid_data(self):
+        form_data = {}
+
+        form = UpdateBlokaj(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 4)
