@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 
+#Deneme
+from .decarator import *
+
 # Müsti Abi
 import traceback
 
@@ -42,7 +45,7 @@ from django.contrib import messages
 
 RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
 
-
+@timing_decorator
 def anasayfa(request: HttpRequest) -> RedirectOrResponse:
     if request.method == "POST":
         username = request.POST.get("username")
